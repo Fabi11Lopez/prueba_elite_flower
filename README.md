@@ -8,7 +8,7 @@ Este repositorio contiene el diseño y código fuente para la implementación de
 ## 🏗️ 2. Arquitectura del Data Lake en AWS
 La solución está diseñada bajo una **Arquitectura Medallón**, separando el almacenamiento en Amazon S3 y el cómputo distribuido en Databricks (PySpark).
 
-![Diagrama de Arquitectura en AWS](docs/arquitectura_aws.png) *(Nota: Reemplaza con la ruta de tu imagen)*
+![Diagrama de Arquitectura en AWS](docs/arquitectura_aws.png) 
 
 * **Capa Bronze (Ingesta):** Almacenamiento de datos crudos (HVFHS y Catálogo de Zonas) tal cual provienen de la fuente. Funciona como un registro histórico inmutable de tipo *append-only*.
 * **Capa Silver (Transformación):** Limpieza, normalización de timestamps, casteo estricto de tipos de datos (decimales para métricas financieras) y enriquecimiento espacial mediante *JOIN* con el catálogo de zonas.

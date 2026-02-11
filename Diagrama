@@ -25,14 +25,14 @@ PASO 2: Limpieza y Enriquecimiento (02_Capa_Silver) [COMPLETADO]
   - Enriquecimiento: Hacer un LEFT JOIN con el catálogo de zonas para traer nombres de barrios.
   - Salida: Guardado en tabla Silver con la columna silver_processing_timestamp.
 
-PASO 3: Modelado de Negocio (03_Capa_Gold) [LO QUE SIGUE]
+PASO 3: Modelado de Negocio (03_Capa_Gold) 
 * Objetivo: Calcular los KPIs finales listos para consumo (Power BI, reportes).
 * Acciones:
   - Agrupaciones (GROUP BY) por zona o por hora.
   - Cálculo de métricas: Total de viajes, promedios de tarifas, zonas con mayor demanda.
   - Salida: Tablas agregadas, livianas y altamente optimizadas.
 
-PASO 4: Automatización (Workflows / Jobs) [OPCIONAL/CIERRE]
+PASO 4: Automatización (Workflows / Jobs) 
 * Objetivo: Que el proceso corra solo.
 * Acciones: 
   - Configurar un "Job" en Databricks que ejecute los notebooks en orden (1 -> 2 -> 3) de forma programada.
