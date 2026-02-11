@@ -1,0 +1,38 @@
+======================================================
+🗺️ PIPELINE DE DATOS: TAXIS NYC (ARQUITECTURA MEDALLION)
+======================================================
+
+PASO 0: Orquestación y Variables (00_config)
+* Objetivo: Centralizar el control.
+* Acciones: 
+  - Definir credenciales estáticas de acceso a AWS.
+  - Declarar nombres de las tablas (Bronze, Silver, Gold).
+  - Servir como único punto de verdad para las rutas del proyecto.
+
+PASO 1: Ingesta Cruda (01_Capa_Bronze) [COMPLETADO]
+* Objetivo: Traer los datos tal cual están en la fuente original.
+* Acciones:
+  - Conexión a S3 mediante boto3.
+  - Lectura particionada (lotes) para optimizar memoria.
+  - Metadatos añadidos: Creación del ID único y columna ingestion_timestamp.
+  - Salida: Guardado en formato Delta (modo overwrite/append con evolución de esquema).
+
+PASO 2: Limpieza y Enriquecimiento (02_Capa_Silver) [COMPLETADO]
+* Objetivo: Entregar un modelo de datos confiable y estandarizado.
+* Acciones:
+  - Casteo de tipos: Convertir strings a Timestamp (fechas) y Decimal (dinero).
+  - Calidad de datos: Filtrar nulos y eliminar registros ilógicos (dropoff < pickup).
+  - Enriquecimiento: Hacer un LEFT JOIN con el catálogo de zonas para traer nombres de barrios.
+  - Salida: Guardado en tabla Silver con la columna silver_processing_timestamp.
+
+PASO 3: Modelado de Negocio (03_Capa_Gold) [LO QUE SIGUE]
+* Objetivo: Calcular los KPIs finales listos para consumo (Power BI, reportes).
+* Acciones:
+  - Agrupaciones (GROUP BY) por zona o por hora.
+  - Cálculo de métricas: Total de viajes, promedios de tarifas, zonas con mayor demanda.
+  - Salida: Tablas agregadas, livianas y altamente optimizadas.
+
+PASO 4: Automatización (Workflows / Jobs) [OPCIONAL/CIERRE]
+* Objetivo: Que el proceso corra solo.
+* Acciones: 
+  - Configurar un "Job" en Databricks que ejecute los notebooks en orden (1 -> 2 -> 3) de forma programada.
